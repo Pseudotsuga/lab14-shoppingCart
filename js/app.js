@@ -1,5 +1,5 @@
 'use strict';
- 
+var myStorage = window.localStorage;
 // Cart constructor.
 var Cart = function(items) {
   // this.items is an array of CartItem instances.
@@ -13,9 +13,9 @@ Cart.prototype.addItem = function(product, quantity) {
     };
 // TODO: Fill in this instance method to save the contents of the cart to localStorage
 Cart.prototype.saveToLocalStorage = function() {
-  var myStorage = window.localStorage;
+  
     var jsonString = JSON.stringify(this.items);
-  myStorage.setItem('cartData', jsonString);
+  myStorage.setItem("cartData", jsonString);
 };
 
 Cart.prototype.removeItem = function(item) {
@@ -61,3 +61,8 @@ function generateCatalog() {
 
 // Initialize the app by creating the big list of products with images and names
 generateCatalog();
+
+
+var cart1 = new Cart(new CartItem('mug', 20));
+cart1.saveToLocalStorage();
+console.log(myStorage["cartData"]);
