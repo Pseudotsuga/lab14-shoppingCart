@@ -8,31 +8,40 @@ var Cart = function(items) {
   this.items = items;
 };
 
-// TODO: Fill in this instance method to create a new CartItem and add it to this.items
+
 Cart.prototype.addItem = function(product, quantity) {
   var purchaseItem = new CartItem(product, quantity); 
   this.items.push(purchaseItem); 
 };
 
-// TODO: Fill in this instance method to save the contents of the cart to localStorage
+
 Cart.prototype.saveToLocalStorage = function() {
   var jsonString = JSON.stringify(this.items);
-  myStorage.setItem('cartData', jsonString);
+  myStorage.setItem('cartData', jsonString);  
 };
 
  // TODO: Fill in this instance method to remove one item from the cart.
   // Note: You will have to decide what kind of parameter to pass in here!
 Cart.prototype.removeItem = function(item) {
   var cartDataString = myStorage.getItem('cartData');
-  var cartDataJson = JSON.parse(cartDataString, new Cart(items));
-  
+  var cartDataJson = JSON.parse(cartDataString);
+  console.log(cartDataJson);
+  console.log(item);
+  if (cartDataJson.includes(item)) {
+    var whatever = cartDataJson.indexOf(item);
+    var firstHalf = cartDataJson.slice(whatever-1);
+    var secondHalf = cartDataJson.slice(whatever+1);
+    return Array.of(firstHalf, secondHalf);
+    
+  }
+
 };
 
 var CartItem = function(product, quantity) {
   this.product = product;
   this.quantity = quantity;
 };
-console.log(new CartItem('mug', 20));
+
 // Product contructor.
 var Product = function(filePath, name) {
   this.filePath = filePath;
@@ -68,11 +77,11 @@ function generateCatalog() {
 // Initialize the app by creating the big list of products with images and names
 generateCatalog();
 
-
+// start running code
 var cart = new Cart([]);
 
 cart.addItem('mug', 20);
 cart.addItem('pen', 13);
 cart.addItem('book', 129);
-
-console.log(cart.items);
+cart.saveToLocalStorage();
+cart.removeItem();
