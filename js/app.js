@@ -1,26 +1,31 @@
 'use strict';
 var myStorage = window.localStorage;
+
+
 // Cart constructor.
 var Cart = function(items) {
   // this.items is an array of CartItem instances.
   this.items = items;
 };
 
-Cart.prototype.addItem = function(product, quantity) {
 // TODO: Fill in this instance method to create a new CartItem and add it to this.items
-    var purchaseItem = new CartItem(product, quantity); 
-      new Cart(purchaseItem);  
-    };
-// TODO: Fill in this instance method to save the contents of the cart to localStorage
-Cart.prototype.saveToLocalStorage = function() {
-  
-    var jsonString = JSON.stringify(this.items);
-  myStorage.setItem("cartData", jsonString);
+Cart.prototype.addItem = function(product, quantity) {
+  var purchaseItem = new CartItem(product, quantity); 
+  this.items.push(purchaseItem); 
 };
 
-Cart.prototype.removeItem = function(item) {
-  // TODO: Fill in this instance method to remove one item from the cart.
+// TODO: Fill in this instance method to save the contents of the cart to localStorage
+Cart.prototype.saveToLocalStorage = function() {
+  var jsonString = JSON.stringify(this.items);
+  myStorage.setItem('cartData', jsonString);
+};
+
+ // TODO: Fill in this instance method to remove one item from the cart.
   // Note: You will have to decide what kind of parameter to pass in here!
+Cart.prototype.removeItem = function(item) {
+  var cartDataString = myStorage.getItem('cartData');
+  var cartDataJson = JSON.parse(cartDataString, new Cart(items));
+  
 };
 
 var CartItem = function(product, quantity) {
@@ -34,6 +39,7 @@ var Product = function(filePath, name) {
   this.name = name;
   Product.allProducts.push(this);
 };
+
 Product.allProducts = [];
 
 function generateCatalog() {
@@ -63,6 +69,10 @@ function generateCatalog() {
 generateCatalog();
 
 
-var cart1 = new Cart(new CartItem('mug', 20));
-cart1.saveToLocalStorage();
-console.log(myStorage["cartData"]);
+var cart = new Cart([]);
+
+cart.addItem('mug', 20);
+cart.addItem('pen', 13);
+cart.addItem('book', 129);
+
+console.log(cart.items);
