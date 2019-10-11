@@ -10,31 +10,25 @@ var Cart = function(items) {
 
 
 Cart.prototype.addItem = function(product, quantity) {
-  var purchaseItem = new CartItem(product, quantity); 
-  this.items.push(purchaseItem); 
+  var newCartItem = new CartItem(product, quantity);
+  this.items.push(newCartItem);
 };
 
 
 Cart.prototype.saveToLocalStorage = function() {
   var jsonString = JSON.stringify(this.items);
-  myStorage.setItem('cartData', jsonString);  
+  myStorage.setItem('cartData', jsonString);
 };
 
- // TODO: Fill in this instance method to remove one item from the cart.
-  // Note: You will have to decide what kind of parameter to pass in here!
-Cart.prototype.removeItem = function(item) {
+// TODO: Fill in this instance method to remove one item from the cart.
+// Note: You will have to decide what kind of parameter to pass in here!
+Cart.prototype.removeItem = function(object) {
   var cartDataString = myStorage.getItem('cartData');
   var cartDataJson = JSON.parse(cartDataString);
-  console.log(cartDataJson);
-  console.log(item);
-  if (cartDataJson.includes(item)) {
-    var whatever = cartDataJson.indexOf(item);
-    var firstHalf = cartDataJson.slice(whatever-1);
-    var secondHalf = cartDataJson.slice(whatever+1);
-    return Array.of(firstHalf, secondHalf);
-    
-  }
-
+  var newArray = cartDataJson.filter(function(item){
+    return item.product !== object;
+  });
+  this.items = newArray;
 };
 
 var CartItem = function(product, quantity) {
@@ -84,4 +78,6 @@ cart.addItem('mug', 20);
 cart.addItem('pen', 13);
 cart.addItem('book', 129);
 cart.saveToLocalStorage();
-cart.removeItem();
+console.log(cart.items);
+cart.removeItem('mug');
+console.log(cart.items);
