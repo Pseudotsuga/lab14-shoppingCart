@@ -17,18 +17,21 @@ Cart.prototype.addItem = function(product, quantity) {
 
 Cart.prototype.saveToLocalStorage = function() {
   var jsonString = JSON.stringify(this.items);
-  myStorage.setItem('cartData', jsonString);
+  myStorage.setItem('cart', jsonString);
 };
 
 // TODO: Fill in this instance method to remove one item from the cart.
 // Note: You will have to decide what kind of parameter to pass in here!
 Cart.prototype.removeItem = function(object) {
-  var cartDataString = myStorage.getItem('cartData');
+  var cartDataString = myStorage.getItem('cart');
   var cartDataJson = JSON.parse(cartDataString);
   var newArray = cartDataJson.filter(function(item){
     return item.product !== object;
   });
-  this.items = newArray;
+  this.items = [];
+  for(var i = 0; i < newArray.length; i++){
+    this.items.push(new CartItem(newArray[i].product,newArray[i].quantity));
+  }
 };
 
 var CartItem = function(product, quantity) {
@@ -36,7 +39,7 @@ var CartItem = function(product, quantity) {
   this.quantity = quantity;
 };
 
-// Product contructor.
+// Product constructor.
 var Product = function(filePath, name) {
   this.filePath = filePath;
   this.name = name;
