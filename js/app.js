@@ -75,12 +75,4 @@ function generateCatalog() {
 generateCatalog();
 
 // start running code
-var cart = new Cart([]);
 
-cart.addItem('mug', 20);
-cart.addItem('pen', 13);
-cart.addItem('book', 129);
-cart.saveToLocalStorage();
-console.log(cart.items);
-cart.removeItem('mug');
-console.log(cart.items);

@@ -24,7 +24,7 @@ function renderCart() {
 function clearCart() {
   var tableRowNode = tableBodyNode.querySelectorAll('tr');
   if(tableRowNode.length > 0){
-    for (var i = 0; i < cart.items.length; i++){
+    for (var i = 0; i <= cart.items.length; i++){
       tableRowNode[i].remove();
     }
   }
@@ -40,17 +40,17 @@ function showCart() {
     newTableRow.setAttribute('id', `${cart.items[i].product}`)
     tableBodyNode.appendChild(newTableRow);
 
-    var nameDataCell = document.createElement('td');
-    nameDataCell.innerText = `${cart.items[i].product}`;
-    newTableRow.appendChild(nameDataCell);
+    var deleteDataCell = document.createElement('td');
+    deleteDataCell.textContent = 'X';
+    newTableRow.appendChild(deleteDataCell);
 
     var quantityDataCell = document.createElement('td');
     quantityDataCell.innerText = `${cart.items[i].quantity}`;
     newTableRow.appendChild(quantityDataCell);
 
-    var deleteDataCell = document.createElement('td');
-    deleteDataCell.textContent = 'X';
-    newTableRow.appendChild(deleteDataCell);
+    var nameDataCell = document.createElement('td');
+    nameDataCell.innerText = `${cart.items[i].product}`;
+    newTableRow.appendChild(nameDataCell);
   }
 }
 // TODO: Create a TR
@@ -59,12 +59,12 @@ function showCart() {
 
 
 function removeItemFromCart(event) {
-  console.log('hello');
   if(event.target.textContent === 'X'){
     var rowDeletedID = document.getElementById(event.target.parentElement.id);
-    var whatever = rowDeletedID.firstChild.textContent;
-    console.log(whatever);
-    cart.removeItem()
+    var nameNonString = rowDeletedID.lastChild.textContent;
+    cart.removeItem(`${nameNonString}`);
+    cart.saveToLocalStorage();
+    renderCart();
   }
   // TODO: When a delete link is clicked, use cart.removeItem to remove the correct item
   // TODO: Save the cart back to local storage
